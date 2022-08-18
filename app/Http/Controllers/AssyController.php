@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assy;
+use Exception;
 use Illuminate\Http\Request;
 
 class AssyController extends Controller
@@ -11,8 +13,21 @@ class AssyController extends Controller
         return view('assy.create');
     }
 
+    public function check($date)
+    {
+        $assy = Assy::where('tanggal', $date)->get();
+
+        return $assy;
+    }
+
     public function create(Request $request)
     {
-        return $request->all();
+        try{
+            Assy::updateOrCreate($request->only('tanggal'), $request->all());
+
+            return redirect()->back()->with('success', 'Data berhasil diproses');
+        }catch(Exception $x){
+            return redirect()->back()->with('error', $x->getMessage());
+        }
     }
 }
