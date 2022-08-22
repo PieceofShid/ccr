@@ -13,9 +13,9 @@ class AssyController extends Controller
         return view('assy.create');
     }
 
-    public function check($date)
+    public function check($date, $tipe)
     {
-        $assy = Assy::where('tanggal', $date)->get();
+        $assy = Assy::where('tanggal', $date)->where('tipe', $tipe)->get();
 
         return $assy;
     }
@@ -23,7 +23,7 @@ class AssyController extends Controller
     public function create(Request $request)
     {
         try{
-            Assy::updateOrCreate($request->only('tanggal'), $request->all());
+            Assy::updateOrCreate($request->only(['tanggal', 'tipe']), $request->all());
 
             return redirect()->back()->with('success', 'Data berhasil diproses');
         }catch(Exception $x){

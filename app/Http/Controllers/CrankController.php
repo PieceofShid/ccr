@@ -13,9 +13,9 @@ class CrankController extends Controller
         return view('crank.create');
     }
 
-    public function check($date)
+    public function check($date, $tipe)
     {
-        $crank = Crank::where('tanggal', $date)->get();
+        $crank = Crank::where('tanggal', $date)->where('tipe', $tipe)->get();
 
         return $crank;
     }
@@ -23,7 +23,7 @@ class CrankController extends Controller
     public function create(Request $request)
     {
         try{
-            Crank::updateOrCreate($request->only('tanggal'), $request->all());
+            Crank::updateOrCreate($request->only(['tanggal', 'tipe']), $request->all());
 
             return redirect()->back()->with('success', 'Data berhasil diproses');
         }catch(Exception $x){

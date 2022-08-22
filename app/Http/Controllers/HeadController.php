@@ -13,9 +13,9 @@ class HeadController extends Controller
         return view('head.create');
     }
 
-    public function check($date)
+    public function check($date, $tipe)
     {
-        $head = Head::where('tanggal', $date)->get();
+        $head = Head::where('tanggal', $date)->where('tipe', $tipe)->get();
 
         return $head;
     }
@@ -23,7 +23,7 @@ class HeadController extends Controller
     public function create(Request $request)
     {
         try{
-            Head::updateOrCreate($request->only('tanggal'), $request->all());
+            Head::updateOrCreate($request->only(['tanggal', 'tipe']), $request->all());
 
             return redirect()->back()->with('success', 'Data berhasil diproses');
         }catch(Exception $x){

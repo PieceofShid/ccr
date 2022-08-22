@@ -13,9 +13,9 @@ class CamController extends Controller
         return view('cam.create');
     }
 
-    public function check($date)
+    public function check($date, $tipe)
     {
-        $cam = Cam::where('tanggal', $date)->get();
+        $cam = Cam::where('tanggal', $date)->where('tipe', $tipe)->get();
 
         return $cam;
     }
@@ -23,7 +23,7 @@ class CamController extends Controller
     public function create(Request $request)
     {
         try{
-            Cam::updateOrCreate($request->only('tanggal'), $request->all());
+            Cam::updateOrCreate($request->only(['tanggal', 'tipe']), $request->all());
 
             return redirect()->back()->with('success', 'Data berhasil diproses');
         }catch(Exception $x){

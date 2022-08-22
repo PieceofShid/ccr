@@ -13,9 +13,9 @@ class BlockController extends Controller
         return view('block.create');
     }
 
-    public function check($date)
+    public function check($date, $tipe)
     {
-        $block = Block::where('tanggal', $date)->get();
+        $block = Block::where('tanggal', $date)->where('tipe', $tipe)->get();
 
         return $block;
     }
@@ -23,7 +23,7 @@ class BlockController extends Controller
     public function create(Request $request)
     {
         try{
-            Block::updateOrCreate($request->only('tanggal'), $request->all());
+            Block::updateOrCreate($request->only(['tanggal', 'tipe']), $request->all());
 
             return redirect()->back()->with('success', 'Data berhasil diproses');
         }catch(Exception $x){
